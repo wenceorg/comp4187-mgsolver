@@ -142,7 +142,7 @@ def test_mms_convergence(coarse_grid):
 @pytest.mark.parametrize("lu", [False, True],
                          ids=["Jacobi coarse grid", "Exact coarse grid"])
 def test_two_grid(coarse_grid, lu):
-    hierarchy = GridHierarchy(coarse_grid, nrefinements=1) 
+    hierarchy = GridHierarchy(coarse_grid, nrefinements=1)
     operator = Poisson3pt
 
     fine = hierarchy[-1]
