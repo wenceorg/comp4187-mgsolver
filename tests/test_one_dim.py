@@ -42,6 +42,10 @@ class Poisson3pt(AbstractOperator):
             # Translate index in global vector to index in local
             # vector for xarray.
             iloc = i + xoff
+            # Equation is scaled by volume element (Hx) for
+            # compatibility with the multigrid transfer operators
+            # PETSc creates (hence 2/Hx rather than 2/Hx**2), and the
+            # right hand side is scaled appropriately too.
             yarray[i] = 2 / Hx * xarray[iloc]
             if iglob == 0 or iglob == mx - 1:
                 # On boundary, nothing else to do
@@ -65,6 +69,10 @@ class Poisson3pt(AbstractOperator):
             # Insertion into matrice is with global numbers
             row.i = iglob
             col.i = iglob
+            # Equation is scaled by volume element (Hx) for
+            # compatibility with the multigrid transfer operators
+            # PETSc creates (hence 2/Hx rather than 2/Hx**2), and the
+            # right hand side is scaled appropriately too.
             value = 2 / Hx
             A.setValueStencil(row, col, value,
                               addv=PETSc.InsertMode.INSERT_VALUES)
